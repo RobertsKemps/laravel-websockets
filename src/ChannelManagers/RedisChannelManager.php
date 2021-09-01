@@ -150,7 +150,9 @@ class RedisChannelManager extends LocalChannelManager
                 // If the total connections count gets to 0 after unsubscribe,
                 // try again to check & unsubscribe from the PubSub topic if needed.
                 if ($count < 1) {
-                    $this->unsubscribeFromTopic($connection->app->id, $channelName);
+                    // this creates issue with not broadcasted messages across all servers https://github.com/beyondcode/laravel-websockets/pull/778#discussion_r700187565
+                    //$this->unsubscribeFromTopic($connection->app->id, $channelName);
+
                     $this->removeChannelFromSet($connection->app->id, $channelName);
                 }
             })

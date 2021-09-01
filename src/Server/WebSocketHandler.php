@@ -252,6 +252,7 @@ class WebSocketHandler implements MessageComponentInterface
             'event' => 'pusher:connection_established',
             'data' => json_encode([
                 'socket_id' => $connection->socketId,
+                'server_id' => $this->channelManager->getServerId(),
                 'activity_timeout' => 30,
             ]),
         ]));

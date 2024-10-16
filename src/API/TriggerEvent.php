@@ -16,12 +16,18 @@ class TriggerEvent extends Controller
      */
     public function __invoke(Request $request)
     {
-        $channels = $request->channels ?: [];
+        $payload = $request->json();
 
-        if (is_string($channels)) {
-            $channels = [$channels];
+        if ($payload->has('channel')) {
+            $channels = [$payload->get('channel')];
+        } else {
+            $channels = $payload->get('channels', []);
+
+            if (is_string($channels)) {
+                $channels = [$channels];
+            }
         }
-
+        
         foreach ($channels as $channelName) {
             // Here you can use the ->find(), even if the channel
             // does not exist on the server. If it does not exist,
